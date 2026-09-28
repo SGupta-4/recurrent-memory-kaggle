@@ -41,7 +41,10 @@ def main():
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         print(f"Using device: {device}")
         
-        train_loader, val_loader, test_loader = make_loaders(config, seq_len=128, vocab_size=config.model.vocab_size)
+        import time
+        start_time = time.time()
+        
+        train_loader, val_loader, test_loader = make_loaders(config, vocab_size=config.model.vocab_size)
         
         model = get_model(config).to(device)
         
@@ -58,9 +61,17 @@ def main():
         # Eval test
         test_loss, test_acc = evaluate(model, test_loader, device)
         
+        end_time = time.time()
+        
+        peak_mem = 0
+        if torch.cuda.is_available():
+            peak_mem = torch.cuda.max_memory_allocated() / (1024 ** 2)
+            
         metrics = {
             "test_loss": test_loss,
-            "test_acc": test_acc
+            "test_acc": test_acc,
+            "runtime_sec": end_time - start_time,
+            "peak_memory_mb": peak_mem
         }
         with open(os.path.join(args.output, "metrics.json"), "w") as f:
             json.dump(metrics, f)
@@ -80,7 +91,7 @@ def main():
         model.load_state_dict(ckpt['model_state_dict'])
         model.to(device)
         
-        _, _, test_loader = make_loaders(config, seq_len=128, vocab_size=config.model.vocab_size)
+        _, _, test_loader = make_loaders(config, vocab_size=config.model.vocab_size)
         
         test_loss, test_acc = evaluate(model, test_loader, device)
         

@@ -19,6 +19,9 @@ class TrainConfig:
     epochs: int = 1
     max_steps: Optional[int] = None
     seed: int = 42
+    seq_len: int = 128
+    num_train: int = 1000
+    num_val: int = 200
 
 @dataclass
 class Config:
