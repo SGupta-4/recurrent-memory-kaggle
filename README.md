@@ -11,7 +11,7 @@ python -m pip install -e .
 
 2. Run a smoke test:
 ```bash
-python -m recurrent_memory.cli smoke --config configs/smoke.yaml --seed 17 --output outputs/smoke-seed17
+python -m recurrent_memory.cli train --config configs/smoke.yaml --seed 17 --output outputs/smoke-seed17
 ```
 
 3. Evaluate the smoke test:

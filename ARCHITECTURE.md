@@ -11,9 +11,9 @@ The primary objective predicts the next action/decision from an instruction, pri
 ## Data Flow
 `Synthetic Generators -> Encoding -> Dataloaders -> Model (Chunks) -> Loss -> Checkpoint`
 
-The core innovation resides in how the `forward` pass chunks the input trajectory in the two-timescale model, passing the dense window as standard attention queries and resolving the older history as an updated recurrent vector.
+The core innovation resides in how the `forward` pass chunks the input trajectory in the two-timescale model, passing the dense window as standard attention queries and resolving the older history as an updated recurrent memory slots.
 
 ## Interfaces
 - **Models:** Expose a unified `forward` interface taking chunks.
 - **Data:** Deterministic synthetic task splits.
-- **CLI:** Subcommands for `smoke`, `train`, `evaluate`.
+- **CLI:** Subcommands for `train`, `evaluate`.

@@ -9,7 +9,7 @@ def train_epoch(model, dataloader, optimizer, device):
     
     for batch_idx, (x, y) in enumerate(tqdm(dataloader, desc="Training")):
         x, y = x.to(device), y.to(device)
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
         
         logits = model(x)
         
@@ -57,6 +57,8 @@ def fit(model, train_loader, val_loader, config, device):
     optimizer = torch.optim.AdamW(model.parameters(), lr=config.train.learning_rate)
     
     best_val_acc = 0.0
+    best_state = None
+    import copy
     for epoch in range(config.train.epochs):
         print(f"Epoch {epoch+1}/{config.train.epochs}")
         train_loss = train_epoch(model, train_loader, optimizer, device)
@@ -66,5 +68,8 @@ def fit(model, train_loader, val_loader, config, device):
         
         if val_acc > best_val_acc:
             best_val_acc = val_acc
+            best_state = copy.deepcopy(model.state_dict())
             
+    if best_state is not None:
+        model.load_state_dict(best_state)
     return best_val_acc

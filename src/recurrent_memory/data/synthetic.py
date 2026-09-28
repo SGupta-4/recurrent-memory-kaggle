@@ -36,14 +36,8 @@ class NeedleDataset(Dataset):
             
             # The target is the value we want to predict at the last position
             # We will formulate it as next-token prediction, so the target for query_pos+1 is needle_val
-            target = seq.copy()
-            target[query_pos + 2] = needle_val
-            # Sequence has shape (seq_len,), Target has shape (seq_len,)
-            # The loss will only be computed on the last position for simplicity, 
-            # or on all positions if we want it to learn copying.
-            # We'll just learn full next-token prediction.
-            
-            # Make sure the last token in seq is a pad or dummy so it doesn't give away the answer
+            target = [0] * seq_len
+            target[query_pos + 1] = needle_val
             seq[query_pos + 2] = 0
             
             self.data.append((torch.tensor(seq, dtype=torch.long), torch.tensor(target, dtype=torch.long)))

@@ -8,7 +8,7 @@ def main():
     configs = ["configs/baseline_main.yaml", "configs/twotimescale_main.yaml"]
     names = ["baseline", "two_timescale"]
     
-    results = {name: {"acc": [], "mem": [], "time": []} for name in names}
+    results = {name: {"acc": [], "mem": [], "time": [], "params": []} for name in names}
     
     # Run experiments
     for name, config in zip(names, configs):
@@ -16,9 +16,9 @@ def main():
             out_dir = f"outputs/{name}_seed{seed}"
             print(f"Running {name} with seed {seed}...")
             
-            # Using standard CLI
+            # Using updated train CLI
             cmd = [
-                "python", "-m", "recurrent_memory.cli", "smoke", 
+                "python", "-m", "recurrent_memory.cli", "train", 
                 "--config", config, 
                 "--seed", str(seed), 
                 "--output", out_dir
@@ -33,14 +33,16 @@ def main():
             results[name]["acc"].append(metrics["test_acc"])
             results[name]["mem"].append(metrics["peak_memory_mb"])
             results[name]["time"].append(metrics["runtime_sec"])
+            results[name]["params"].append(metrics.get("trainable_parameters", 0))
 
     # Aggregate and plot
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    fig, axes = plt.subplots(1, 4, figsize=(20, 5))
     
     metrics_to_plot = [
         ("Accuracy", "acc", "Test Accuracy"),
         ("Peak Memory (MB)", "mem", "Peak GPU Memory (MB)"),
-        ("Runtime (s)", "time", "Total Runtime (s)")
+        ("Runtime (s)", "time", "Total Runtime (s)"),
+        ("Trainable Params", "params", "Trainable Params")
     ]
     
     for i, (title, key, ylabel) in enumerate(metrics_to_plot):

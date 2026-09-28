@@ -26,3 +26,4 @@ Log meaningful implementation or research decisions here.
 um_train, injected resource tracking into cli.py, and added scripts/run_experiments.py for orchestration.
 - **Rationale:** A centralized python script handles the Kaggle execution loop cleanly, logs metrics, and outputs comparison plots immediately.
 - **Affected files/interfaces:** config.py, loaders.py, cli.py, configs/*_main.yaml, scripts/run_experiments.py
+\n## 2026-09-29: Objective and Metric Fix\n- **Context:** Training was evaluating accuracy across the entire sequence of copied tokens.\n- **Decision:** Shifted target creation to zero out all tokens except the actual next-token answer at the query position.\n- **Rationale:** Ensures accuracy exclusively represents the model\'s ability to retrieve the target needle, eliminating trivial copying.\n
