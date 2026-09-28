@@ -19,3 +19,10 @@ Log meaningful implementation or research decisions here.
 - **Tradeoff/risks accepted:** None.
 - **Affected files/interfaces:** `pyproject.toml`
 - **Revisit when:** Complex binary dependencies or pure Kaggle offline constraints mandate vendoring.
+
+## 2026-09-29: Dynamic Configuration & Experiment Automation
+- **Context/question:** Need to execute multi-seed experiments and compare resource costs (memory/time) without manual intervention.
+- **Decision:** Upgraded configs to accept seq_len/
+um_train, injected resource tracking into cli.py, and added scripts/run_experiments.py for orchestration.
+- **Rationale:** A centralized python script handles the Kaggle execution loop cleanly, logs metrics, and outputs comparison plots immediately.
+- **Affected files/interfaces:** config.py, loaders.py, cli.py, configs/*_main.yaml, scripts/run_experiments.py

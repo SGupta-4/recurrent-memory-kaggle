@@ -19,6 +19,13 @@ python -m recurrent_memory.cli smoke --config configs/smoke.yaml --seed 17 --out
 python -m recurrent_memory.cli evaluate --checkpoint outputs/smoke-seed17/checkpoint.pt --split test --output outputs/smoke-seed17/eval.json
 ```
 
+## Full Experiment
+
+To run the main comparison (baseline vs. two-timescale) across multiple seeds and generate a performance/memory plot:
+`ash
+python scripts/run_experiments.py
+`
+
 ## Structure
 - `src/recurrent_memory/`: Core implementation.
 - `configs/`: YAML configurations for experiments.

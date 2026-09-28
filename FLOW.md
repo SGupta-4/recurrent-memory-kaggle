@@ -18,4 +18,13 @@ python -m recurrent_memory.cli
 ```
 
 ## Current change path
-*Initial setup phase:* Establishing the directory skeleton, core documentation, and the basic CLI execution hooks. 
+*Phase 8 (Main Experiment):* Integrated dynamic configs and an automated runner (scripts/run_experiments.py) to execute and plot cross-seed evaluations.
+## Automated Experiment Flow
+`	ext
+python scripts/run_experiments.py
+  -> loops over [baseline, two_timescale] and seeds [17, 42, 100]
+  -> invokes python -m recurrent_memory.cli smoke ...
+  -> parses metrics.json (acc, memory, runtime)
+  -> outputs xperiment_results.png
+`
+ 
