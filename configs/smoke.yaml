@@ -1,0 +1,14 @@
+model:
+  type: "baseline"
+  d_model: 64
+  n_layers: 2
+  n_heads: 4
+  chunk_length: 32
+  memory_slots: 4
+  vocab_size: 100
+
+train:
+  batch_size: 16
+  learning_rate: 0.001
+  epochs: 2
+  seed: 17
